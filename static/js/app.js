@@ -59,9 +59,49 @@ function updateDashboard(currentSample) {
             metadata.innerHTML += `<p><strong>${key}:</strong> ${value}</p>`;
         });
 
+        // Update Gauge Chart
+        updateGaugeChart(currentMetadata.wfreq);
     });
 
+
 }
+
+// Function to create and update Gauge Chart
+function updateGaugeChart(washingFrequency) {
+
+    let gaugeData = [
+        {
+            type: "indicator",
+            mode: "gauge+number",
+            value: washingFrequency,
+            title: { text: "Belly Button Washing Frequency<br>Scrubs per Week" },
+            gauge: {
+                axis: { range: [null, 9], tickwidth: 1, tickcolor: "darkblue" },
+                bar: { color: "darkblue" },
+                bgcolor: "white",
+                borderwidth: 2,
+                bordercolor: "gray",
+                steps: [
+                    { range: [0, 1], color: "#F5EFE7" },
+                    { range: [1, 2], color: "#F1EDDF" },
+                    { range: [2, 3], color: "#E3E2BE" },
+                    { range: [3, 4], color: "#DEE5A1" },
+                    { range: [4, 5], color: "#CCE283" },
+                    { range: [5, 6], color: "#A9C478" },
+                    { range: [6, 7], color: "#76B66D" },
+                    { range: [7, 8], color: "#74B179" },
+                    { range: [8, 9], color: "#6FA973" }
+                ],
+            }
+        }
+        
+    ];
+
+    let gaugeLayout = { width: 400, height: 300, margin: { t: 0, b: 0 } };
+
+    Plotly.newPlot("gauge", gaugeData, gaugeLayout);
+}
+
 
 // Initialize the dropdown menu options
 d3.json("https://2u-data-curriculum-team.s3.amazonaws.com/dataviz-classroom/v1.1/14-Interactive-Web-Visualizations/02-Homework/samples.json").then(data => {
